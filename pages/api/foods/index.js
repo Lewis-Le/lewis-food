@@ -4,7 +4,7 @@ import db from '../../../utils/db';
 import Food from '../../../models/food';
 
 
-export default async function foodHandler(req, res) {
+export default async function handler(req, res) {
 
     switch (req.method) {
         case 'GET':
