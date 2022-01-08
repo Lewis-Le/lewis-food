@@ -10,6 +10,7 @@ import Layout from '../../components/Layout'
 export default function App() {
 
   const [foods_data, setFoods_data] = useState([]);
+  const [current_list_foods_order, setCurrent_list_foods_order] = useState([]);  //là array chứa các obj foods 
 
 
   useEffect(() => {
@@ -24,14 +25,24 @@ export default function App() {
     // console.log(data)
   };
 
-  function add_more_food(e){
-    let btn_div_parent = e.target.parentNode;
-    console.log(btn_div_parent);
-    btn_div_parent.childNodes[1].textContent = `${parseInt(btn_div_parent.childNodes[1].textContent) + 1}`;
+  function add_more_food(food){
+    let btn_div_parent = e.parentNode;
+    console.log(e);
+    
     // if(count === 0){
       //add thêm món này vào đơn hàng
-      //res trả về số count của món này trong đơn hàng
-      //set count = res số count trả về
+      setCurrent_list_foods_order(current_list_foods_order.push({
+        id_food: '',
+        title: '',
+        note: '',
+        total: btn_div_parent.childNodes[1].textContent,
+        price: '',
+        total_price: ''
+      }));
+      localStorage.setItem('current_list_foods_order', JSON.stringify(current_list_foods_order));
+      //set sl món ăn
+      btn_div_parent.childNodes[1].textContent = `${parseInt(btn_div_parent.childNodes[1].textContent) + 1}`;
+      //giảm phần món ăn xuống trong allfoods
     // }
     //else if(count > 0){
       //chỉ cần tăng count lên
@@ -53,6 +64,11 @@ export default function App() {
   }
 
 
+  function create_order(){
+
+  }
+
+
 
   return (
     <Layout>
@@ -67,10 +83,10 @@ export default function App() {
                 <p className="text-sm">{food.bref_des}</p>
                 <p className="text-md">{food.price}</p>
                 <p className="text-sm">{`Còn lại ${food.total} phần`}</p>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-3">
                   <button>-</button>
-                  <p>0</p>
-                  <button onClick={add_more_food}>+</button>
+                  <p className="text-center text-lg" id={`count${food._id}`}>0</p>
+                  <button className="border border-green-700 w-7 rounded-full text-center pb-1" onClick={add_more_food.bind(this, food)}>+</button>
                 </div>
               </div>
             </>
