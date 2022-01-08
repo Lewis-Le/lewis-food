@@ -2,15 +2,16 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import react from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import Layout from '../../components/Layout'
 
 
 export default function App() {
 
-  const [foods_data, setFoods_data] = useState([]);
+  const [foods_data, setFoods_data] = useState([]);   //data get từ server
   const [current_list_foods_order, setCurrent_list_foods_order] = useState([]);  //là array chứa các obj foods 
+  const [current_total_price, setCurrent_total_price] = useState(0);
 
 
   useEffect(() => {
@@ -25,46 +26,55 @@ export default function App() {
     // console.log(data)
   };
 
-  function add_more_food(food){
-    let btn_div_parent = e.parentNode;
-    console.log(e);
-    
-    // if(count === 0){
-      //add thêm món này vào đơn hàng
-      setCurrent_list_foods_order(current_list_foods_order.push({
-        id_food: '',
-        title: '',
-        note: '',
-        total: btn_div_parent.childNodes[1].textContent,
-        price: '',
-        total_price: ''
-      }));
-      localStorage.setItem('current_list_foods_order', JSON.stringify(current_list_foods_order));
-      //set sl món ăn
-      btn_div_parent.childNodes[1].textContent = `${parseInt(btn_div_parent.childNodes[1].textContent) + 1}`;
-      //giảm phần món ăn xuống trong allfoods
-    // }
-    //else if(count > 0){
-      //chỉ cần tăng count lên
-      //res trả về số count của món này trong đơn hàng
-      //set count = res số count trả về
-    // }
+  function add_more_food(e) {
+    let btn_div_parent = e.target.parentNode;
+    let div_parent = btn_div_parent.parentNode;
+    btn_div_parent.childNodes[0].classList.remove('hidden');  //hiện nút remove
+    // console.log(div_parent);
+    current_list_foods_order[`${div_parent.id}`] = {    //add/update thông tin món này vào đơn hàng
+      id_food: div_parent.id,
+      title: div_parent.childNodes[1].textContent,
+      note: '',
+      total: `${parseInt(btn_div_parent.childNodes[1].textContent) + 1}`,
+      price: div_parent.childNodes[3].textContent,
+      total_price: div_parent.childNodes[3].textContent * (parseInt(btn_div_parent.childNodes[1].textContent) + 1),
+    };
+    setCurrent_list_foods_order(current_list_foods_order);
+    console.log(current_list_foods_order);
+    btn_div_parent.childNodes[1].textContent = `${parseInt(btn_div_parent.childNodes[1].textContent) + 1}`;   //tăng sl món ăn
+    setCurrent_total_price(current_total_price + parseInt(current_list_foods_order[`${div_parent.id}`].price));   //Tính tổng số tiền đơn hàng
+    //giảm phần món ăn xuống trong allfoods
   };
 
-  function remove_more_food(e){
-    // if(count === 1){
-      //remove món này khỏi đơn hàng
-      //set count = 0
-    // }
-    //else if(count > 1){
-      //chỉ cần giảm count xuống
-      //res trả về số count của món này trong đơn hàng
-      //set count = res số count trả về
-    // }
+
+  function remove_more_food(e) {
+    let btn_div_parent = e.target.parentNode;
+    let div_parent = btn_div_parent.parentNode;
+    if (btn_div_parent.childNodes[1].textContent === '1') {   //ẩn nút remove
+      // current_list_foods_order.splice(`${div_parent.id}`, 1);
+      // console.log(current_list_foods_order.indexOf(current_list_foods_order[`${div_parent.id}`]))
+      e.target.classList.add('hidden');
+    }
+    else if (btn_div_parent.childNodes[1].textContent != '1') {
+      current_list_foods_order[`${div_parent.id}`] = {    //add/update thông tin món này trong đơn hàng
+        id_food: div_parent.id,
+        title: div_parent.childNodes[1].textContent,
+        note: '',
+        total: `${parseInt(btn_div_parent.childNodes[1].textContent) - 1}`,
+        price: div_parent.childNodes[3].textContent,
+        total_price: div_parent.childNodes[3].textContent * (parseInt(btn_div_parent.childNodes[1].textContent) - 1),
+      };
+    };
+    // console.log(div_parent);
+    setCurrent_list_foods_order(current_list_foods_order);
+    console.log(current_list_foods_order);
+    btn_div_parent.childNodes[1].textContent = `${parseInt(btn_div_parent.childNodes[1].textContent) - 1}`;   //giảm sl món ăn
+    setCurrent_total_price(current_total_price - parseInt(current_list_foods_order[`${div_parent.id}`].price));   //Tính tổng số tiền đơn hàng
+    //tăng phần món ăn lên trong allfoods
   }
 
 
-  function create_order(){
+  function create_order() {
 
   }
 
@@ -73,20 +83,22 @@ export default function App() {
   return (
     <Layout>
       <p className="text-center text-lg">Tất cả món ăn</p>
+      <p>Tổng giá trị thanh toán: {current_total_price}.000 VND</p>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 px-12 mt-7">
         {
           foods_data?.data?.map(food => {
+            // let el_total_number = useRef();
             return <>
-              <div className="bg-or-yellow w-auto p-4 mt-12 shadow-lg rounded-lg">
+              <div id={food._id} className="bg-or-yellow w-auto p-4 mt-12 shadow-lg rounded-lg">
                 <img className="w-48 mx-auto rounded-lg -mt-12" src={food.img} />
                 <p className="text-lg text-center">{food.title}</p>
                 <p className="text-sm">{food.bref_des}</p>
                 <p className="text-md">{food.price}</p>
                 <p className="text-sm">{`Còn lại ${food.total} phần`}</p>
                 <div className="flex justify-end gap-3">
-                  <button>-</button>
-                  <p className="text-center text-lg" id={`count${food._id}`}>0</p>
-                  <button className="border border-green-700 w-7 rounded-full text-center pb-1" onClick={add_more_food.bind(this, food)}>+</button>
+                  <button className="border border-green-700 w-7 rounded-full text-center pb-1 hidden" onClick={remove_more_food}>-</button>
+                  <p className="text-center text-lg">0</p>
+                  <button className="border border-green-700 w-7 rounded-full text-center pb-1" onClick={add_more_food}>+</button>
                 </div>
               </div>
             </>
