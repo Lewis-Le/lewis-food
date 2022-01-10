@@ -14,19 +14,21 @@ function Foods_panel({ list, list_id }) {
   return (
     <>
       <div className="w-full h-full flex items-end justify-center pointer-events-none fixed">
-        <div className="bg-carrot flex justify-center gap-3 p-4 rounded-lg w-4/6 h-2/6">
-          {
-            list_id.map(id => {
-              console.log(list[id]);
-              return <>
-                <div className="w-24 animate__animated animate__zoomInDown">
-                  <img src={list[id].img} />
-                  <p>{list[id].title}</p>
-                </div>
-              </>
-            })
-          }
-        </div>
+        {
+          (list_id.length === 0) ? null : <div className="bg-carrot flex justify-center gap-3 p-4 rounded-lg w-4/6 h-2/6 animate__animated animate__lightSpeedInLeft">
+            {
+              list_id.map(id => {
+                console.log(list[id]);
+                return <>
+                  <div className="w-24 animate__animated animate__tada">
+                    <img className="rounded-lg" src={list[id].img} />
+                    <p className="text-sm text-center text-white">{list[id].title}</p>
+                  </div>
+                </>
+              })
+            }
+          </div>
+        }
       </div>
 
     </>
@@ -122,7 +124,7 @@ export default function App() {
       <p className="text-center text-lg">Tất cả món ăn</p>
       <p>Tổng giá trị thanh toán: {current_total_price}.000 VND</p>
       <Foods_panel list={current_list_foods_order} list_id={list_id} />
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 px-12 mt-7">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 px-12 mt-7 pb-44">
         {
           foods_data?.data?.map(food => {
             // let el_total_number = useRef();
