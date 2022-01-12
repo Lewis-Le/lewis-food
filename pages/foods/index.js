@@ -14,15 +14,18 @@ function Foods_panel({ list, list_id }) {
   return (
     <>
       <div className="w-full h-full flex items-end justify-center pointer-events-none fixed">
+        <div className="bg-black lg:flex justify-center">
+        <button className="border border-green-700 w-7 rounded-full text-center pb-1 hidden">-</button>
+        </div>
         {
-          (list_id.length === 0) ? null : <div className="bg-carrot flex justify-center gap-3 p-4 rounded-lg w-4/6 h-2/6 animate__animated animate__lightSpeedInLeft">
+          (list_id.length === 0) ? null : <div className="bg-carrot lg:flex justify-center lg:gap-3 gap-2 p-4 lg:mb-5 lg:rounded-lg lg:w-4/6 w-full grid grid-flow-row auto-rows-max grid-cols-3 overflow-auto pointer-events-auto animate__animated animate__lightSpeedInLeft">
             {
               list_id.map(id => {
                 console.log(list[id]);
                 return <>
                   <div className="w-24 animate__animated animate__tada">
                     <img className="rounded-lg" src={list[id].img} />
-                    <p className="text-sm text-center text-white">{list[id].title}</p>
+                    <p className="hidden lg:block text-sm text-center text-white">{list[id].title}</p>
                   </div>
                 </>
               })
@@ -120,31 +123,33 @@ export default function App() {
 
 
   return (
-    <Layout>
-      <p className="text-center text-lg">Tất cả món ăn</p>
-      <p>Tổng giá trị thanh toán: {current_total_price}.000 VND</p>
+    <>
       <Foods_panel list={current_list_foods_order} list_id={list_id} />
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 px-12 mt-7 pb-44">
-        {
-          foods_data?.data?.map(food => {
-            // let el_total_number = useRef();
-            return <>
-              <div id={food._id} className="bg-or-yellow w-auto p-4 mt-12 shadow-lg rounded-lg">
-                <img className="w-48 mx-auto rounded-lg -mt-12" src={food.img} />
-                <p className="text-lg text-center">{food.title}</p>
-                <p className="text-sm">{food.bref_des}</p>
-                <p className="text-md">{food.price}</p>
-                <p className="text-sm">{`Còn lại ${food.total} phần`}</p>
-                <div className="flex justify-end gap-3">
-                  <button className="border border-green-700 w-7 rounded-full text-center pb-1 hidden" onClick={remove_more_food}>-</button>
-                  <p className="text-center text-lg">0</p>
-                  <button className="border border-green-700 w-7 rounded-full text-center pb-1" onClick={add_more_food}>+</button>
+      <Layout>
+        <p className="text-center text-lg">Tất cả món ăn</p>
+        <p>Tổng giá trị thanh toán: {current_total_price}.000 VND</p>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 px-12 mt-7 pb-44">
+          {
+            foods_data?.data?.map(food => {
+              // let el_total_number = useRef();
+              return <>
+                <div id={food._id} className="bg-or-yellow w-auto p-4 mt-12 shadow-lg rounded-lg">
+                  <img className="w-48 mx-auto rounded-lg -mt-12" src={food.img} />
+                  <p className="text-lg text-center">{food.title}</p>
+                  <p className="text-sm">{food.bref_des}</p>
+                  <p className="text-md">{food.price}</p>
+                  <p className="text-sm">{`Còn lại ${food.total} phần`}</p>
+                  <div className="flex justify-end gap-3">
+                    <button className="border border-green-700 w-7 rounded-full text-center pb-1 hidden" onClick={remove_more_food}>-</button>
+                    <p className="text-center text-lg">0</p>
+                    <button className="border border-green-700 w-7 rounded-full text-center pb-1" onClick={add_more_food}>+</button>
+                  </div>
                 </div>
-              </div>
-            </>
-          })
-        }
-      </div>
-    </Layout>
+              </>
+            })
+          }
+        </div>
+      </Layout>
+    </>
   )
 }
