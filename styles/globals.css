@@ -9,7 +9,12 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
-  /* background-color: #04030F; */
+  /* background-color: rgb(40, 39, 41); */
+  background-image: url('https://sproutingzen.com/wp-content/uploads/2017/04/AdobeStock_111615673.jpeg');
+  /* background-position: center;  */
+  /* background-repeat: no-repeat;  */
+  /* background-size: cover;  */
+  /* background-attachment: fixed; */
 }
 
 a {
@@ -19,4 +24,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+
+.food_card{
+  backdrop-filter: blur(21px);
+  background-color: rgba(192, 182, 136, 0.548);
 }

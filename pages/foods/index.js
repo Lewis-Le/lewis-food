@@ -14,26 +14,27 @@ function Foods_panel({ list, list_id }) {
   return (
     <>
       <div className="w-full h-full flex items-end justify-center pointer-events-none fixed">
-        <div className="bg-black lg:flex justify-center">
-        <button className="border border-green-700 w-7 rounded-full text-center pb-1 hidden">-</button>
-        </div>
         {
-          (list_id.length === 0) ? null : <div className="bg-carrot lg:flex justify-center lg:gap-3 gap-2 p-4 lg:mb-5 lg:rounded-lg lg:w-4/6 w-full grid grid-flow-row auto-rows-max grid-cols-3 overflow-auto pointer-events-auto animate__animated animate__lightSpeedInLeft">
-            {
-              list_id.map(id => {
-                console.log(list[id]);
-                return <>
-                  <div className="w-24 animate__animated animate__tada">
-                    <img className="rounded-lg" src={list[id].img} />
-                    <p className="hidden lg:block text-sm text-center text-white">{list[id].title}</p>
-                  </div>
-                </>
-              })
-            }
+          (list_id.length === 0) ? null : <div className="w-full">
+            <div className="bg-carrot backdrop-blur-sm lg:flex justify-center mx-auto lg:gap-3 gap-2 p-4 mb-1 lg:rounded-lg lg:w-4/6 w-full grid grid-flow-row auto-rows-max grid-cols-3 overflow-auto pointer-events-auto animate__animated animate__lightSpeedInLeft">
+              {
+                list_id.map(id => {
+                  console.log(list[id]);
+                  return <>
+                    <div className="w-24 animate__animated animate__tada">
+                      <img className="rounded-lg" src={list[id].img} />
+                      <p className="hidden lg:block text-sm text-center text-white">{list[id].title}</p>
+                    </div>
+                  </>
+                })
+              }
+            </div>
+            <div className="bg-or-yellow lg:w-2/12 w-10/12 h-9 mx-auto mb-1 rounded-full text-center text-white">
+              Đặt món
+            </div>
           </div>
         }
       </div>
-
     </>
   );
 };
@@ -133,7 +134,7 @@ export default function App() {
             foods_data?.data?.map(food => {
               // let el_total_number = useRef();
               return <>
-                <div id={food._id} className="bg-or-yellow w-auto p-4 mt-12 shadow-lg rounded-lg">
+                <div id={food._id} className="food_card w-auto p-4 mt-12 shadow-lg rounded-lg">
                   <img className="w-48 mx-auto rounded-lg -mt-12" src={food.img} />
                   <p className="text-lg text-center">{food.title}</p>
                   <p className="text-sm">{food.bref_des}</p>
