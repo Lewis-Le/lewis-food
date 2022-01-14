@@ -14,11 +14,14 @@ const Layout = ({ children }) => (
 			/>
 		</Head>
 
-		<header>
-			<NavbarMenu />
-		</header>
+		<div className="w-full h-full bg-carrot">
+			<div>
+				<NavbarMenu />
+			</div>
 
-		<main>{children}</main>
+			<div className="">{children}</div>
+		</div>
+
 	</>
 )
 
