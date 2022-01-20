@@ -2,9 +2,10 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import react from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 
 import Layout from '../../components/Layout'
+import {DataContext} from '../_app';
 
 
 function Foods_panel({ list, list_id }) {
@@ -62,9 +63,11 @@ function Foods_panel({ list, list_id }) {
 export default function App() {
 
   const [foods_data, setFoods_data] = useState([]);   //data get từ server
-  const [current_list_foods_order, setCurrent_list_foods_order] = useState([]);  //là array chứa các obj foods 
+  //const [current_list_foods_order, setCurrent_list_foods_order] = useState([]);  //là array chứa các obj foods 
   const [current_total_price, setCurrent_total_price] = useState(0);
   const [list_id, setList_id] = useState([]);
+
+  const [current_list_foods_order, setCurrent_list_foods_order] = useContext(DataContext);
 
 
   useEffect(() => {
