@@ -10,7 +10,8 @@ import { DataContext } from '../_app'
 
 export default function App() {
 
-  const [current_list_foods_order, setCurrent_list_foods_order] = useContext(DataContext);
+  const {current_list_foods_order, setCurrent_list_foods_order} = useContext(DataContext);
+  console.log('in payment', current_list_foods_order);
 
   return (
     <Layout>

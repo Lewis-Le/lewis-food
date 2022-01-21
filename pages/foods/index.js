@@ -48,9 +48,9 @@ function Foods_panel({ list, list_id }) {
                 })
               }
             </div>
-            <div className="bg-or-yellow lg:w-2/12 w-10/12 h-9 mx-auto mb-1 rounded-full text-center text-white">
+            <a className="bg-or-yellow lg:w-2/12 w-10/12 h-9 mx-auto mb-1 rounded-full text-center text-white pointer-events-auto" href="/order/payment">
               Đặt món
-            </div>
+            </a>
           </div>
         }
       </div>
@@ -67,7 +67,7 @@ export default function App() {
   const [current_total_price, setCurrent_total_price] = useState(0);
   const [list_id, setList_id] = useState([]);
 
-  const [current_list_foods_order, setCurrent_list_foods_order] = useContext(DataContext);
+  const {current_list_foods_order, setCurrent_list_foods_order} = useContext(DataContext);
 
 
   useEffect(() => {
